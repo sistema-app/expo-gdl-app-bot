@@ -1,6 +1,6 @@
 {
   "name": "Asistente Virtual Ejecutivo - Expo 2026",
-  "short_name": "Expo 2026",
+  "short_name": "Expo BOT",
   "description": "Asistente de preguntas frecuentes para visitantes y expositores.",
   "start_url": "./index.html",
   "display": "standalone",
