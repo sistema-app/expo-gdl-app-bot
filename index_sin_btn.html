@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Asistente Virtual Ejecutivo - Expo 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Enlace al manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Color de la barra de estado en móviles -->
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Icono para dispositivos Apple -->
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+
+    <style>
+        :root {
+            /* Paleta de colores fríos y ejecutivos */
+            --bg-dark: #0f172a;
+            --bg-gradient: radial-gradient(circle at top left, #1e293b, #0f172a, #020617);
+            --primary-blue: #0284c7;
+            --primary-hover: #0369a1;
+            --accent-cyan: #38bdf8;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --bot-bubble: rgba(2, 132, 199, 0.15);
+            --user-bubble: rgba(56, 189, 248, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-light);
+            height: 100dvh; 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Header / Navbar --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 100;
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        .logo-container img {
+            height: 40px;
+            width: auto;
+        }
+
+        .action-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-links a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .action-links a:hover {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* --- Main Chat App Area --- */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            height: calc(100dvh - 70px); 
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 40px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-blue) transparent;
+            scroll-behavior: smooth;
+        }
+
+        .chat-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .chat-body::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 10px;
+        }
+
+        /* --- Mensajes --- */
+        .msg-wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .msg-wrapper.bot { align-items: flex-start; }
+        .msg-wrapper.user { align-items: flex-end; }
+
+        .msg {
+            max-width: 80%;
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 1rem;
+            line-height: 1.5;
+            /* Se quitó el cubic-bezier rebotón por un ease-out mucho más sutil y natural */
+            animation: slideUp 0.3s ease-out;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .msg.bot {
+            background: var(--bot-bubble);
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            border-bottom-left-radius: 4px;
+            backdrop-filter: blur(10px);
+        }
+
+        .msg.user {
+            background: var(--user-bubble);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-bottom-right-radius: 4px;
+            color: #fff;
+        }
+
+        /* --- Opciones Orgánicas (Cards / Chips) --- */
+        .organic-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 10px;
+            max-width: 90%;
+            /* Desvanecimiento suave sin brincos */
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: var(--accent-cyan);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-card:hover {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.4);
+            transform: translateY(-3px);
+        }
+
+        /* --- Input Area --- */
+        .chat-footer {
+            padding: 20px;
+            background: linear-gradient(to top, var(--bg-dark) 60%, transparent);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding-bottom: 30px;
+        }
+
+        .input-container {
+            flex: 1;
+            display: flex;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 5px 15px;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s;
+        }
+
+        .input-container:focus-within {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        .input-container input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 5px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-container input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .send-btn {
+            background: var(--primary-blue);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            margin-top: 2px;
+        }
+
+        .send-btn:hover {
+            background: var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        .send-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; height: 60px; }
+            .action-links span { display: none; }
+            .action-links a { padding: 8px; border-radius: 50%; }
+            .chat-body { padding: 20px 15px; }
+            .msg { max-width: 95%; }
+            main { height: calc(100dvh - 60px); } 
+            .chat-footer { padding-bottom: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabecera -->
+    <header>
+        <div class="logo-container">
+            <img src="logo.svg" alt="Expo Logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 150 40\'><text y=\'25\' fill=\'white\' font-family=\'Inter\' font-size=\'22\' font-weight=\'bold\'>EXPO LOGO</text></svg>';">
+        </div>
+        <div class="action-links">
+            <a href="https://expoguadalajara.mx/" target="_blank" title="Sitio Web">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                <span>Sitio Web</span>
+            </a>
+            <a href="https://api.whatsapp.com/send/?phone=5213333433000&text&type=phone_number&app_absent=0" target="_blank" title="WhatsApp">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>WhatsApp</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Aplicación Principal (Chat) -->
+    <main>
+        <div class="chat-body" id="chatBody">
+            <!-- El contenido dinámico se inyectará aquí al cargar -->
+        </div>
+
+        <div class="chat-footer">
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Pregúntame algo o selecciona una opción de arriba..." autocomplete="off">
+                <button class="send-btn" id="sendBtn">
+                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Variables globales
+        let appData = null;
+        let categorias = [];
+
+        // Referencias al DOM
+        const chatBody = document.getElementById('chatBody');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        // 1. Cargar el archivo JSON real al iniciar
+        async function cargarDatos() {
+            try {
+                const response = await fetch('datos.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                appData = await response.json();
+                
+                // Extraer categorías únicas de forma orgánica
+                const categoriasSet = new Set(appData.expo.faq.map(item => item.categoria));
+                categorias = Array.from(categoriasSet);
+
+                iniciarChat();
+            } catch (error) {
+                console.error("Error al cargar datos.json:", error);
+                appendMessage("Lo siento, no pude cargar la base de datos (datos.json). Asegúrate de que el archivo exista en la misma ruta y que estés ejecutando la app desde un servidor local (ej. Live Server).", "bot");
+            }
+        }
+
+        // 2. Renderizado de Mensajes
+        function appendMessage(text, sender) {
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('msg-wrapper', sender);
+
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', sender);
+            msgDiv.innerText = text;
+
+            wrapper.appendChild(msgDiv);
+            chatBody.appendChild(wrapper);
+            
+            // Usar un pequeño timeout asegura que el render se actualice antes del scroll
+            setTimeout(scrollToBottom, 50);
+        }
+
+        // 3. Renderizado Orgánico de Opciones (Cards)
+        function appendOptions(options, type) {
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('msg-wrapper', 'bot');
+
+            const container = document.createElement('div');
+            container.classList.add('organic-options');
+            
+            options.forEach(opt => {
+                const card = document.createElement('div');
+                card.classList.add('option-card');
+                
+                let label = type === 'category' ? opt : (type === 'question' ? opt.pregunta : opt.label);
+                
+                const iconHTML = type === 'category' 
+                    ? `<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>`
+                    : `<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>`;
+                
+                card.innerHTML = `${iconHTML} <span>${label}</span>`;
+                
+                card.addEventListener('click', () => {
+                    appendMessage(label, 'user');
+                    setTimeout(() => procesarSeleccion(opt, type), 400);
+                });
+                
+                container.appendChild(card);
+            });
+            
+            wrapper.appendChild(container);
+            chatBody.appendChild(wrapper);
+            setTimeout(scrollToBottom, 50);
+        }
+
+        function scrollToBottom() {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // 4. Lógica Guiada
+        function iniciarChat() {
+            const saludo = `¡Bienvenido a ${appData.expo.nombre}! \n\n${appData.expo.descripcion} ¿En qué categoría te puedo ayudar hoy?`;
+            appendMessage(saludo, 'bot');
+            appendOptions(categorias, 'category');
+        }
+
+        function procesarSeleccion(seleccion, tipo) {
+            if (tipo === 'category') {
+                const preguntas = appData.expo.faq.filter(f => f.categoria === seleccion);
+                appendMessage(`Excelente. Aquí están las consultas más frecuentes sobre "${seleccion}":`, 'bot');
+                // Retraso sutil antes de desplegar las opciones para que no sea abrupto
+                setTimeout(() => appendOptions(preguntas, 'question'), 300);
+            } 
+            else if (tipo === 'question') {
+                appendMessage(seleccion.respuesta, 'bot');
+                
+                // Calculamos tiempo de lectura según longitud de texto (min 1.5s, máx 3.5s aprox)
+                const lecturaMinima = 1500;
+                const tiempoCalculado = seleccion.respuesta.length * 30;
+                const tiempoEspera = Math.max(lecturaMinima, Math.min(tiempoCalculado, 4000));
+                
+                setTimeout(() => {
+                    // Quitamos la burbuja "Deseas consultar algo más"
+                    // Mostramos solo el botón directo después del tiempo de lectura.
+                    appendOptions([{label: 'Volver al Menú Principal', action: 'home'}], 'action');
+                }, tiempoEspera);
+            }
+            else if (tipo === 'action') {
+                if (seleccion.action === 'home') {
+                    appendMessage('Selecciona una nueva categoría:', 'bot');
+                    setTimeout(() => appendOptions(categorias, 'category'), 300);
+                }
+            }
+        }
+
+        // 5. Entrada de Texto Libre (Fallback)
+        function manejarInputUsuario() {
+            const texto = userInput.value.trim();
+            if (!texto || !appData) return;
+
+            appendMessage(texto, 'user');
+            userInput.value = '';
+
+            const busqueda = texto.toLowerCase();
+
+            setTimeout(() => {
+                const coincidencia = appData.expo.faq.find(item => 
+                    item.pregunta.toLowerCase().includes(busqueda) || 
+                    item.categoria.toLowerCase().includes(busqueda)
+                );
+
+                if (coincidencia) {
+                    appendMessage(coincidencia.respuesta, 'bot');
+                    
+                    const tiempoEspera = Math.max(1500, Math.min(coincidencia.respuesta.length * 30, 4000));
+                    setTimeout(() => {
+                        appendOptions([{label: 'Volver al Menú Principal', action: 'home'}], 'action');
+                    }, tiempoEspera);
+                } else {
+                    appendMessage("No encontré una respuesta exacta a tu consulta. Por favor, selecciona un tema de nuestro menú para guiarte mejor:", 'bot');
+                    setTimeout(() => appendOptions(categorias, 'category'), 600);
+                }
+            }, 600);
+        }
+
+        // 6. Registro del Service Worker para la PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registrado con éxito:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Fallo en el registro del Service Worker:', error);
+                    });
+            });
+        }
+
+        // Listeners
+        sendBtn.addEventListener('click', manejarInputUsuario);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') manejarInputUsuario();
+        });
+        userInput.addEventListener('focus', () => {
+            setTimeout(scrollToBottom, 300);
+        });
+
+        window.addEventListener('DOMContentLoaded', cargarDatos);
+
+    </script>
+</body>
+</html>

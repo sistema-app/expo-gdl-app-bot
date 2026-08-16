@@ -1,0 +1,153 @@
+{
+  "expo": {
+    "nombre": "Expo Ejemplo 2026",
+    "descripcion": "Asistente de preguntas frecuentes para visitantes y expositores.",
+    "faq": [
+      {
+        "categoria": "Información General",
+        "pregunta": "¿Qué es la Expo?",
+        "respuesta": "Es un evento donde empresas, emprendedores y organizaciones presentan sus productos, servicios e innovaciones."
+      },
+      {
+        "categoria": "Información General",
+        "pregunta": "¿Cuál es el horario del evento?",
+        "respuesta": "El horario es de 10:00 a 19:00 horas durante todos los días del evento."
+      },
+      {
+        "categoria": "Fechas",
+        "pregunta": "¿Cuándo se realizará la Expo?",
+        "respuesta": "La Expo se llevará a cabo del 15 al 17 de octubre de 2026."
+      },
+      {
+        "categoria": "Fechas",
+        "pregunta": "¿Puedo asistir cualquier día?",
+        "respuesta": "Sí, tu boleto es válido para el día indicado al momento de la compra."
+      },
+      {
+        "categoria": "Costos",
+        "pregunta": "¿Cuánto cuesta la entrada?",
+        "respuesta": "La entrada general tiene un costo de $200 MXN por persona."
+      },
+      {
+        "categoria": "Costos",
+        "pregunta": "¿Hay descuentos?",
+        "respuesta": "Sí, existen descuentos para estudiantes, adultos mayores y grupos, presentando identificación vigente."
+      },
+      {
+        "categoria": "Boletos",
+        "pregunta": "¿Dónde puedo comprar boletos?",
+        "respuesta": "Los boletos pueden adquirirse en línea o en las taquillas del evento, sujetos a disponibilidad."
+      },
+      {
+        "categoria": "Boletos",
+        "pregunta": "¿Aceptan pagos con tarjeta?",
+        "respuesta": "Sí, se aceptan tarjetas de crédito, débito y pagos en efectivo."
+      },
+      {
+        "categoria": "Accesos",
+        "pregunta": "¿Dónde está la entrada principal?",
+        "respuesta": "La entrada principal se encuentra sobre la avenida principal del recinto."
+      },
+      {
+        "categoria": "Accesos",
+        "pregunta": "¿Hay acceso para personas con discapacidad?",
+        "respuesta": "Sí, el recinto cuenta con rampas, elevadores y sanitarios accesibles."
+      },
+      {
+        "categoria": "Estacionamiento",
+        "pregunta": "¿Hay estacionamiento?",
+        "respuesta": "Sí, el recinto cuenta con estacionamiento para visitantes con costo adicional."
+      },
+      {
+        "categoria": "Estacionamiento",
+        "pregunta": "¿Hay espacios para motocicletas y bicicletas?",
+        "respuesta": "Sí, existen áreas designadas para ambos medios de transporte."
+      },
+      {
+        "categoria": "Logística",
+        "pregunta": "¿Qué documentos debo presentar para ingresar?",
+        "respuesta": "Solo necesitas tu boleto y una identificación oficial si aplica algún descuento."
+      },
+      {
+        "categoria": "Logística",
+        "pregunta": "¿Puedo salir y volver a entrar?",
+        "respuesta": "Sí, siempre que conserves tu brazalete o sello de reingreso."
+      },
+      {
+        "categoria": "Logística",
+        "pregunta": "¿Se permite ingresar con alimentos?",
+        "respuesta": "No se permite el ingreso con alimentos ni bebidas externas, salvo casos médicos."
+      },
+      {
+        "categoria": "Logística",
+        "pregunta": "¿Hay guardarropa?",
+        "respuesta": "Sí, existe servicio de guardarropa con costo adicional."
+      },
+      {
+        "categoria": "Expositores",
+        "pregunta": "¿Cómo puedo contratar un stand?",
+        "respuesta": "Puedes contactar al área comercial mediante el formulario de registro para expositores."
+      },
+      {
+        "categoria": "Expositores",
+        "pregunta": "¿Qué incluye un stand?",
+        "respuesta": "Dependiendo del paquete contratado, incluye espacio, energía eléctrica, mobiliario y gafetes."
+      },
+      {
+        "categoria": "Montaje",
+        "pregunta": "¿Cuándo inicia el montaje?",
+        "respuesta": "El montaje inicia uno o dos días antes del evento, de acuerdo con el calendario oficial."
+      },
+      {
+        "categoria": "Montaje",
+        "pregunta": "¿Cuál es el horario de desmontaje?",
+        "respuesta": "El desmontaje comienza al finalizar el último día del evento."
+      },
+      {
+        "categoria": "Facturación",
+        "pregunta": "¿Puedo solicitar factura?",
+        "respuesta": "Sí, puedes solicitarla dentro del periodo establecido proporcionando tus datos fiscales."
+      },
+      {
+        "categoria": "Servicios",
+        "pregunta": "¿Habrá internet WiFi?",
+        "respuesta": "Sí, el recinto cuenta con red WiFi para visitantes y una red dedicada para expositores."
+      },
+      {
+        "categoria": "Servicios",
+        "pregunta": "¿Habrá área de alimentos?",
+        "respuesta": "Sí, habrá una zona de comida con diferentes opciones."
+      },
+      {
+        "categoria": "Seguridad",
+        "pregunta": "¿Qué hago si pierdo un objeto?",
+        "respuesta": "Acude al módulo de información y objetos perdidos."
+      },
+      {
+        "categoria": "Seguridad",
+        "pregunta": "¿Hay servicio médico?",
+        "respuesta": "Sí, existe un módulo de atención médica durante todo el evento."
+      },
+      {
+        "categoria": "Mascotas",
+        "pregunta": "¿Se permiten mascotas?",
+        "respuesta": "Solo se permite el acceso a perros de asistencia."
+      },
+      {
+        "categoria": "Transporte",
+        "pregunta": "¿Cómo puedo llegar al recinto?",
+        "respuesta": "Puedes llegar en automóvil, transporte público o servicios de transporte por aplicación."
+      },
+      {
+        "categoria": "Contacto",
+        "pregunta": "¿Dónde puedo obtener más información?",
+        "respuesta": "Puedes acudir al módulo de información o contactar al comité organizador."
+      },
+      {
+        "categoria": "Contacto",
+        "pregunta": "¿Cómo puedo comunicarme con atención al cliente?",
+        "respuesta": "Puedes hacerlo por teléfono, correo electrónico o redes sociales oficiales."
+      }
+    ]
+  }
+}
