@@ -1,3 +1,4 @@
+// Actualizar servive worker
 const CACHE_NAME = 'expo-pwa-cache-v2';
 const urlsToCache = [
   './',
