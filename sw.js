@@ -1,46 +1,58 @@
-const CACHE_NAME = 'expo-pwa-cache-v1';
+const CACHE_NAME = 'expo-pwa-cache-v2';
 const urlsToCache = [
   './',
   './index.html',
   './datos.json',
   './manifest.json',
-  './logo.svg' // Reemplaza por el nombre real de tu logo si cambia
+  './logo.svg'
 ];
 
-// Instalación del Service Worker y almacenamiento en caché inicial
+// Instalación
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Archivos en caché correctamente');
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(urlsToCache))
+      .then(() => self.skipWaiting())
   );
 });
 
-// Activación y limpieza de cachés antiguos
+// Activación y limpieza de caché previa
 self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) {
+          if (cacheName !== CACHE_NAME) {
             return caches.delete(cacheName);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
-// Estrategia "Cache First" (Priorizar la caché y buscar en red si no existe)
+// Estrategia de peticiones
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Devuelve el archivo de la caché si existe, o haz la petición a la red
-        return response || fetch(event.request);
-      })
-  );
+  // Para datos.json: Intentar Red Primero, si falla (sin conexión) usar Caché
+  if (event.request.url.includes('datos.json')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(networkResponse => {
+          if (networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseClone);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  } else {
+    // Para el resto de archivos estáticos (HTML, CSS, iconos): Caché Primero
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+    );
+  }
 });
